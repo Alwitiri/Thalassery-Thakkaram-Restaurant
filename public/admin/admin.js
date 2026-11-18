@@ -220,7 +220,7 @@
         <span class="muted">${list.length} dishes</span></div>
       ${table(['', 'Dish', 'Category', 'Price', 'Signature', 'Available', ''], list.map((m) => `
         <tr><td><img class="thumb" src="${esc(m.image)}" alt="" loading="lazy"/></td>
-          <td><span class="veg ${m.veg ? 'v' : 'n'}"></span><strong>${esc(m.name)}</strong><br><span class="muted small">${esc((m.description || '').slice(0, 70))}${(m.description || '').length > 70 ? '…' : ''}</span></td>
+          <td class="main"><span class="veg ${m.veg ? 'v' : 'n'}"></span><strong>${esc(m.name)}</strong><br><span class="muted small">${esc((m.description || '').slice(0, 70))}${(m.description || '').length > 70 ? '…' : ''}</span></td>
           <td>${esc(catName(m.category))}</td><td>₹${m.price}</td>
           <td>${m.signature ? '<span class="pill gold">★ Signature</span>' : ''}</td>
           <td><label class="switch"><input type="checkbox" data-avail="${m.id}" ${m.available ? 'checked' : ''}/><span></span></label></td>
@@ -341,6 +341,13 @@
       me = await api('GET', '/api/admin/me'); views.account();
     });
   };
+
+  // Label table cells so phones can show tables as stacked cards
+  const labelTables = () => $$('#content table').forEach((t) => {
+    const hs = $$('th', t).map((th) => th.textContent.trim());
+    $$('tbody tr', t).forEach((tr) => [...tr.children].forEach((td, i) => { if (!td.classList.contains('empty-row')) td.dataset.label = hs[i] || ''; }));
+  });
+  new MutationObserver(labelTables).observe($('#content'), { childList: true, subtree: true });
 
   boot();
 })();

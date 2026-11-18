@@ -16,11 +16,18 @@
   onScroll();
 
   const burger = $('#burger'), nav = $('#nav');
-  burger.addEventListener('click', () => {
-    const open = nav.classList.toggle('open');
+  const setNav = (open) => {
+    nav.classList.toggle('open', open);
+    document.body.classList.toggle('nav-open', open);
     burger.setAttribute('aria-expanded', open);
-  });
-  $$('#nav a').forEach((a) => a.addEventListener('click', () => { nav.classList.remove('open'); burger.setAttribute('aria-expanded', false); }));
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  };
+  burger.addEventListener('click', () => setNav(!nav.classList.contains('open')));
+  $('#navBackdrop').addEventListener('click', () => setNav(false));
+  addEventListener('keydown', (e) => e.key === 'Escape' && setNav(false));
+  $$('#nav a, #nav button').forEach((a) => a.addEventListener('click', () => setNav(false)));
+  $$('[data-open-qr]').forEach((b) => b.addEventListener('click', () => $('#qrModal').showModal()));
+  $$('[data-order]').forEach((b) => b.addEventListener('click', () => $('#orderBtn').click()));
 
   // active link on scroll
   const sections = ['story', 'menu', 'gallery', 'reviews', 'visit'].map((id) => document.getElementById(id));
@@ -68,6 +75,9 @@
     $('#emailLink').href = 'mailto:' + s.email;
     const wa = `https://wa.me/${s.whatsapp.replace(/\D/g, '')}?text=` + encodeURIComponent(`Hi ${s.name}, I have an enquiry.`);
     $('#waBtn').href = wa; $('#waFloat').href = wa;
+    $$('[data-wa]').forEach((a) => (a.href = wa));
+    $$('[data-call]').forEach((a) => (a.href = 'tel:' + s.phone.replace(/\s/g, '')));
+    $$('[data-directions]').forEach((a) => (a.href = mapsUrl));
     [['#igLink', s.instagram], ['#fbLink', s.facebook], ['#ytLink', s.youtube]].forEach(([sel, url]) => { const el = $(sel); if (url) el.href = url; else el.hidden = true; });
 
     renderHero();
@@ -151,7 +161,7 @@
   function cartCount() { let n = 0; cart.forEach((q) => (n += q)); return n; }
   function updateOrderBtn() {
     const n = cartCount();
-    $('#orderBtn').lastChild.textContent = n ? ` Order Now (${n})` : ' Order Now';
+    $$('[data-cart-count]').forEach((el) => { el.textContent = n; el.hidden = !n; });
   }
   $('#orderBtn').addEventListener('click', () => { if (!data) return; renderOrder(); $('#orderModal').showModal(); });
   function renderOrder() {
