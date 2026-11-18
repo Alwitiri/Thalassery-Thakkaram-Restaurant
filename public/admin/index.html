@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>Admin · Thalassery Thakkaram</title>
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/admin/admin.css" />
+</head>
+<body>
+  <!-- LOGIN -->
+  <section class="login" id="loginView" hidden>
+    <form class="login-card" id="loginForm">
+      <img src="/img/logo.svg" alt="" width="64" height="64" />
+      <h1>Thalassery Thakkaram</h1>
+      <p class="muted">Admin panel</p>
+      <label>Username<input name="username" autocomplete="username" required value="admin" /></label>
+      <label>Password<input name="password" type="password" autocomplete="current-password" required /></label>
+      <button class="btn btn-primary" type="submit">Sign in</button>
+      <p class="err" id="loginErr" role="alert"></p>
+      <a href="/" class="muted small">← Back to website</a>
+    </form>
+  </section>
+
+  <!-- APP -->
+  <div class="app" id="appView" hidden>
+    <aside class="sidebar" id="sidebar">
+      <div class="brand"><img src="/img/logo.svg" alt="" width="36" height="36" /><div><strong>Thakkaram</strong><small>Admin</small></div></div>
+      <nav id="sideNav">
+        <a data-view="dashboard">📊 <span>Dashboard</span></a>
+        <a data-view="reservations">📅 <span>Bookings</span><em class="badge" id="badgeRes"></em></a>
+        <a data-view="menu">🍛 <span>Menu Items</span></a>
+        <a data-view="categories">🗂️ <span>Categories</span></a>
+        <a data-view="slides">🖼️ <span>Hero Slides</span></a>
+        <a data-view="gallery">📷 <span>Gallery</span></a>
+        <a data-view="reviews">⭐ <span>Reviews</span><em class="badge" id="badgeRev"></em></a>
+        <a data-view="settings">⚙️ <span>Site Settings</span></a>
+        <a data-view="account">🔐 <span>Account</span></a>
+      </nav>
+      <div class="side-foot">
+        <a href="/" target="_blank" class="btn btn-ghost btn-block">View website ↗</a>
+        <button class="btn btn-ghost btn-block" id="logoutBtn">Log out</button>
+      </div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="icon-btn" id="sideToggle" aria-label="Toggle menu">☰</button>
+        <h2 id="viewTitle">Dashboard</h2>
+        <div class="top-actions" id="topActions"></div>
+      </header>
+      <div class="warn" id="pwWarn" hidden>You are using the default password. <a data-view="account">Change it now →</a></div>
+      <main class="content" id="content"></main>
+    </div>
+  </div>
+
+  <!-- EDIT MODAL -->
+  <dialog class="modal" id="editModal">
+    <form id="editForm" method="dialog">
+      <header><h3 id="editTitle">Edit</h3><button type="button" class="icon-btn" data-close aria-label="Close">✕</button></header>
+      <div class="fields" id="editFields"></div>
+      <footer>
+        <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+        <button type="submit" class="btn btn-primary" id="editSave">Save</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="/admin/admin.js"></script>
+</body>
+</html>

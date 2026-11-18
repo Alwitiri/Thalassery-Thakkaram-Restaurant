@@ -1,0 +1,19 @@
+{
+  "name": "thalassery-thakkaram",
+  "version": "1.0.0",
+  "description": "Thalassery Thakkaram, Ooty: restaurant website with admin panel",
+  "main": "server.js",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "multer": "^2.0.2",
+    "qrcode": "^1.5.4"
+  }
+}
